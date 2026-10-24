@@ -292,3 +292,21 @@ body.dark-theme {
         display: none; /* Oculta enlaces secundarios en pantallas muy pequeñas para ganar espacio */
     }
 }
+
+nav {
+    display: flex !important;
+    gap: 15px;
+    align-items: center;
+}
+
+nav a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+nav a.active {
+    color: #00d2ff;
+    font-weight: bold;
+}
+
