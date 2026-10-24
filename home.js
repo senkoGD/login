@@ -19,7 +19,8 @@ async function inicializarDashboard() {
     // Mostrar el usuario autenticado en la barra superior
     const user = session.user;
     const nombreUsuario = user.user_metadata.username || user.email;
-    document.getElementById('user-welcome').innerText = `${nombreUsuario}`;
+    const welcomeEl = document.getElementById('user-welcome');
+    if (welcomeEl) welcomeEl.innerText = `${nombreUsuario}`;
 
     // Cargar los niveles desde la base de datos
     cargarNiveles();
@@ -28,7 +29,9 @@ async function inicializarDashboard() {
 // 2. Función para obtener los niveles desde Supabase
 async function cargarNiveles() {
     const levelsContainer = document.querySelector('.levels-list');
-    levelsContainer.innerHTML = '<p style="padding: 15px; color: #888;">Cargando niveles...</p>';
+    if (levelsContainer) {
+        levelsContainer.innerHTML = '<p style="padding: 15px; color: #888;">Cargando niveles...</p>';
+    }
 
     const { data: levels, error } = await supabaseClient
         .from('levels')
@@ -37,12 +40,16 @@ async function cargarNiveles() {
 
     if (error) {
         console.error("Error al cargar niveles:", error.message);
-        levelsContainer.innerHTML = '<p style="padding: 15px; color: #ff4d4d;">Error al cargar la lista.</p>';
+        if (levelsContainer) {
+            levelsContainer.innerHTML = '<p style="padding: 15px; color: #ff4d4d;">Error al cargar la lista.</p>';
+        }
         return;
     }
 
     if (!levels || levels.length === 0) {
-        levelsContainer.innerHTML = '<p style="padding: 15px; color: #888;">No hay niveles registrados aún.</p>';
+        if (levelsContainer) {
+            levelsContainer.innerHTML = '<p style="padding: 15px; color: #888;">No hay niveles registrados aún.</p>';
+        }
         return;
     }
 
@@ -56,6 +63,8 @@ async function cargarNiveles() {
 // 3. Renderizar las tarjetas de la lista lateral
 function renderizarListaNiveles(lista) {
     const levelsContainer = document.querySelector('.levels-list');
+    if (!levelsContainer) return;
+    
     levelsContainer.innerHTML = '';
 
     lista.forEach((level, index) => {
@@ -81,17 +90,27 @@ function renderizarListaNiveles(lista) {
     });
 }
 
-// 4. Mostrar la información del nivel seleccionado a la derecha
+// 4. Mostrar la información del nivel seleccionado a la derecha (CON FIX DE YOUTUBE)
 function seleccionarNivel(level) {
     const detailsContainer = document.querySelector('.level-details');
+    if (!detailsContainer) return;
 
-    // Manejo de video embed de Youtube o texto temporal
     let videoHTML = `<div class="video-placeholder"><span>🎬 Sin video disponible</span></div>`;
+    
     if (level.video_url) {
+        let embedUrl = level.video_url;
+        
+        // Convertir automáticamente enlaces de YouTube normales a formato Embed
+        if (embedUrl.includes("watch?v=")) {
+            embedUrl = embedUrl.replace("watch?v=", "embed/");
+        } else if (embedUrl.includes("youtu.be/")) {
+            embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
+        }
+
         videoHTML = `
             <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px;">
                 <iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" 
-                        src="${level.video_url}" 
+                        src="${embedUrl}" 
                         allowfullscreen>
                 </iframe>
             </div>
@@ -147,5 +166,3 @@ if (btnLogout) {
 
 // Iniciar ejecuciones
 inicializarDashboard();
-
-
