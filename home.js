@@ -141,9 +141,11 @@ function seleccionarNivel(level) {
         ${videoHTML}
 
         <div class="level-stats">
-            <div class="stat-box"><span>PASSWORD</span><strong>${level.password || 'Free Copy'}</strong></div>
+            <div class="stat-box"><span>POINTS</span><strong style="color: #22c55e;">${level.points || 0} pts</strong></div>
             <div class="stat-box"><span>ID</span><strong>${level.level_id || 'N/A'}</strong></div>
             <div class="stat-box"><span>LENGTH</span><strong>${level.length || 'N/A'}</strong></div>
+        </div>
+        
         </div>
 
         <div class="records-section">
