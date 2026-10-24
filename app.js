@@ -18,7 +18,6 @@ document.querySelector('.no-account').addEventListener('click', () => {
     signContainer.style.display = 'block';
 });
 
-// 3. Lógica para REGISTRAR un nuevo usuario
 const formRegister = document.getElementById('form-register');
 
 formRegister.addEventListener('submit', async (e) => {
@@ -64,8 +63,7 @@ formLogin.addEventListener('submit', async (e) => {
         alert("Error al iniciar sesión: " + error.message);
     } else {
         alert("¡Bienvenido " + (data.user.user_metadata.username || email) + "!");
-        console.log("Sesión iniciada:", data);
-        // Aquí puedes descomentar esto cuando crees tu página principal:
+        console.log("Sesión iniciada:", data
          window.location.href = "home.html";
     }
 });
