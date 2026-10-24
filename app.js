@@ -66,6 +66,6 @@ formLogin.addEventListener('submit', async (e) => {
         alert("¡Bienvenido " + (data.user.user_metadata.username || email) + "!");
         console.log("Sesión iniciada:", data);
         // Aquí puedes descomentar esto cuando crees tu página principal:
-        // window.location.href = "home.html";
+         window.location.href = "home.html";
     }
 });
