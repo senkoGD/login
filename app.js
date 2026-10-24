@@ -63,7 +63,7 @@ formLogin.addEventListener('submit', async (e) => {
         alert("Error al iniciar sesión: " + error.message);
     } else {
         alert("¡Bienvenido " + (data.user.user_metadata.username || email) + "!");
-        console.log("Sesión iniciada:", data
+        console.log("Sesión iniciada:", data);
          window.location.href = "home.html";
     }
 });
