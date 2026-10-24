@@ -1,25 +1,21 @@
-const SUPABASE_URL = "NEXT_PUBLIC_SUPABASE_URL=https://fhtlithkqmxbhaebeddd.supabase.co";
+const SUPABASE_URL = "https://fhtlithkqmxbhaebeddd.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_Trm_4iOSUrYtJXVYLP63pg_MD7QZB67";
 
 // Inicializar el cliente de Supabase
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// mi Control visual para cambiar entre Login y Registro
-document.addEventListener('click', (e) => {
-    const signContainer = document.querySelector('.sign-container');
-    const signLogin = document.querySelector('.sign-login');
+// Control visual para cambiar entre Login y Registro
+const signContainer = document.querySelector('.sign-container');
+const signLogin = document.querySelector('.sign-login');
 
-    if (e.target.matches('.ok-account')) {
-        e.preventDefault();
-        signContainer.style.display = 'none';
-        signLogin.style.display = 'block';
-    }
+document.querySelector('.ok-account').addEventListener('click', () => {
+    signContainer.style.display = 'none';
+    signLogin.style.display = 'block';
+});
 
-    if (e.target.matches('.no-account')) {
-        e.preventDefault();
-        signLogin.style.display = 'none';
-        signContainer.style.display = 'block';
-    }
+document.querySelector('.no-account').addEventListener('click', () => {
+    signLogin.style.display = 'none';
+    signContainer.style.display = 'block';
 });
 
 // 3. Lógica para REGISTRAR un nuevo usuario
@@ -69,9 +65,7 @@ formLogin.addEventListener('submit', async (e) => {
     } else {
         alert("¡Bienvenido " + (data.user.user_metadata.username || email) + "!");
         console.log("Sesión iniciada:", data);
-        // Aquí rediriges a la página principal de tu Demon List
+        // Aquí puedes descomentar esto cuando crees tu página principal:
         // window.location.href = "home.html";
     }
 });
-
-
