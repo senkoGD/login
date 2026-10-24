@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDPS Demon List - Autenticación</title>
-    <link rel="stylesheet" href="style.css"
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -17,7 +17,7 @@
                 <input type="text" id="reg-nombre" placeholder="Nombre de usuario" required>
                 <input type="email" id="reg-email" placeholder="Correo electrónico" required>
                 <input type="password" id="reg-password" placeholder="Contraseña (mínimo 6 caracteres)" required minlength="6">
-                <a href="javascript:void(0);" class="ok-account">¿Ya tienes una cuenta?</a>
+                <span class="ok-account" style="color: #00bcff; cursor: pointer; text-decoration: underline; display: inline-block; margin: 10px 0;">¿Ya tienes una cuenta?</span>
                 <input type="submit" value="Registrarse">
             </form>
         </div>
@@ -27,7 +27,7 @@
             <form class="formulario" id="form-login">
                 <input type="email" id="login-email" placeholder="Correo electrónico" required>
                 <input type="password" id="login-password" placeholder="Contraseña" required>
-                <a href="javascript:void(0);" class="no-account">¿Aún no tienes cuenta?</a>
+                <span class="no-account" style="color: #00bcff; cursor: pointer; text-decoration: underline; display: inline-block; margin: 10px 0;">¿Aún no tienes cuenta?</span>
                 <input type="submit" value="Iniciar Sesión">
             </form>
         </div>
