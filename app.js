@@ -40,6 +40,20 @@ formRegister.addEventListener('submit', async (e) => {
     if (error) {
         alert("Error al registrarse: " + error.message);
     } else {
+         // 🌐 WEBHOOK DE DISCORD PARA NUEVOS REGISTROS
+        const DISCORD_WEBHOOK_REGISTROS = "https://discord.com/api/webhooks/1563615688478826506/PFvSHhnwGiFVh9BrltVchx12_3J9Vg887cuPhb0hLxXuj2KzPL-ebNuzRrdWdNxBuE1f";
+
+        try {
+            await fetch(DISCORD_WEBHOOK_REGISTROS, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: `**¡Nuevo Usuario Registrado en Zen List!**\n\n**Usuario:** ${nombre}\n**Correo:** ${email}`
+                })
+            });
+        } catch (err) {
+            console.error("Error al enviar webhook:", err);
+        }
         alert("¡Registro exitoso! Revisa tu correo o inicia sesión.");
         console.log("Usuario creado:", data);
     }
