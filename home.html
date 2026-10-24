@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen List - Panel Principal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- SDK de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark-theme">
+
+    <!-- Barra de Navegación Superior -->
+    <header class="navbar">
+        <div class="nav-brand">Zen List</div>
+        <nav class="nav-links">
+            <a href="#" class="active">List</a>
+            <a href="#">Leaderboard</a>
+            <a href="#">Submit</a>
+        </nav>
+        <div class="nav-user">
+            <span id="user-welcome">Cargando...</span>
+            <button id="btn-logout" class="btn-logout-mini">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal (Diseño adaptable PC y Móvil) -->
+    <div class="main-layout">
+        
+        <!-- Columna Izquierda: Buscador y Lista de Niveles -->
+        <aside class="sidebar-levels">
+            <div class="search-box">
+                <input type="text" placeholder="Search Levels">
+            </div>
+            <div class="levels-list">
+                <!-- Ejemplo de tarjeta de nivel estilo Demon List -->
+                <div class="level-card active">
+                    <span class="level-pos">#1</span>
+                    <div class="level-info">
+                        <h3>Log09</h3>
+                        <p>by Zorryfant508</p>
+                    </div>
+                </div>
+                <div class="level-card">
+                    <span class="level-pos">#2</span>
+                    <div class="level-info">
+                        <h3>Furnace Demoled</h3>
+                        <p>by PotatoMClol</p>
+                    </div>
+                </div>
+                <div class="level-card">
+                    <span class="level-pos">#3</span>
+                    <div class="level-info">
+                        <h3>Etuieukalbakorp</h3>
+                        <p>by lenzi7o</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Columna Derecha: Detalle del Nivel seleccionado -->
+        <main class="level-details">
+            <div class="details-header">
+                <h2>Log09</h2>
+                <p>by Zorryfant508 | Verified by Zorryfant508</p>
+            </div>
+            
+            <!-- Simulador de Showcase / Video -->
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <span>🎬 Showcase de YouTube Próximamente</span>
+                </div>
+            </div>
+
+            <!-- Datos técnicos del nivel -->
+            <div class="level-stats">
+                <div class="stat-box"><span>PASSWORD</span><strong>Free Copy</strong></div>
+                <div class="stat-box"><span>ID</span><strong>149665735</strong></div>
+                <div class="stat-box"><span>LENGTH</span><strong>29s</strong></div>
+            </div>
+
+            <!-- Tabla de Records -->
+            <div class="records-section">
+                <h3>Records</h3>
+                <ul class="records-list">
+                    <li><span>senko</span> <span>Video (100%)</span></li>
+                    <li><span>Putato</span> <span>Video (100%)</span></li>
+                </ul>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Script de la página principal -->
+    <script src="home.js"></script>
+</body>
+</html>

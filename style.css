@@ -29,7 +29,7 @@ body {
 .form h1 {
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
-    color: #00d2ff;
+    color: #ffffff;
 }
 
 .formulario input {
@@ -50,7 +50,7 @@ body {
 
 .formulario input[type="submit"] {
     background: #00d2ff;
-    color: #121212;
+    color: #ffffff;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
@@ -65,8 +65,230 @@ body {
     display: block;
     margin-bottom: 1rem;
     font-size: 0.85rem;
-    color: #00d2ff;
+    color: #ffffff;
     text-decoration: underline;
     cursor: pointer;
 }
 
+/* Estilos generales oscuros para Zen List */
+body.dark-theme {
+    background-color: #0d0d0d;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #141414;
+    padding: 12px 20px;
+    border-bottom: 1px: #222;
+    border-bottom: 1px solid #222;
+}
+
+.nav-brand {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #00bcff;
+}
+
+.nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 0.95rem;
+}
+
+.nav-links a.active, .nav-links a:hover {
+    color: #fff;
+    border-bottom: 2px solid #00bcff;
+    padding-bottom: 4px;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.btn-logout-mini {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* Diseño de dos columnas principal */
+.main-layout {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+/* Sidebar de niveles */
+.sidebar-levels {
+    width: 350px;
+    background-color: #111;
+    border-right: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-box {
+    padding: 15px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    box-sizing: border-box;
+}
+
+.levels-list {
+    overflow-y: auto;
+    flex: 1;
+    padding: 0 10px 10px 10px;
+}
+
+.level-card {
+    background-color: #181818;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.level-card:hover, .level-card.active {
+    background-color: #222;
+    border-color: #00bcff;
+}
+
+.level-pos {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #00bcff;
+}
+
+.level-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.level-info p {
+    margin: 3px 0 0 0;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* Panel de detalles de la derecha */
+.level-details {
+    flex: 1;
+    background-color: #0d0d0d;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.details-header h2 {
+    margin: 0 0 5px 0;
+    font-size: 2rem;
+}
+
+.details-header p {
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.video-placeholder {
+    background-color: #161616;
+    height: 250px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    border: 1px dashed #333;
+    margin-bottom: 20px;
+}
+
+.level-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background-color: #161616;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #222;
+}
+
+.stat-box span {
+    display: block;
+    font-size: 0.75rem;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.stat-box strong {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.records-section {
+    background-color: #161616;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #222;
+}
+
+.records-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.records-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+    font-size: 0.9rem;
+}
+
+/* Adaptabilidad para Móviles (Android) */
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+        height: auto;
+    }
+    .sidebar-levels {
+        width: 100%;
+        max-height: 300px;
+    }
+    .level-details {
+        padding: 15px;
+    }
+    .nav-links {
+        display: none; /* Oculta enlaces secundarios en pantallas muy pequeñas para ganar espacio */
+    }
+}
