@@ -70,7 +70,7 @@ formRegister.addEventListener('submit', async (e) => {
         }
 
         // B) 🌐 WEBHOOK DE DISCORD PARA NUEVOS REGISTROS
-        const DISCORD_WEBHOOK_REGISTROS = "https://discord.com/api/webhooks/1563615688478826506/PFvSHhnwGiFVh9BrltVchx12_3J9Vg887cuPhb0hLxXuj2KzPL-ebNuzRrdWdNxBuE1f";
+        const DISCORD_WEBHOOK_REGISTROS = "https://discord.com/api/webhooks/1563779559751688262/EUNJ7yMIz37VG_5cBUqBIPTKmw2XgeFhgNnSIhpD6CBDT15mTJjNo-pNY_Mx-vJ1w6Rv";
 
         try {
             await fetch(DISCORD_WEBHOOK_REGISTROS, {
