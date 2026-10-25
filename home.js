@@ -1,14 +1,12 @@
 const SUPABASE_URL = "https://fhtlithkqmxbhaebeddd.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_Trm_4iOSUrYtJXVYLP63pg_MD7QZB67";
 
-// Inicializar el cliente de Supabase
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let globalLevels = []; // Almacenará los niveles cargados de Supabase
-let usuarioActualNombre = ""; // Guardará el nombre del usuario logueado
-let htmlDashboardOriginal = ""; // Guarda el layout original del Dashboard
+let globalLevels = []; 
+let usuarioActualNombre = ""; 
+let htmlDashboardOriginal = ""; 
 
-// 1. Verificar Sesión y Cargar Datos al Iniciar
 async function inicializarDashboard() {
     const { data: { session }, error } = await supabaseClient.auth.getSession();
 
@@ -28,7 +26,6 @@ async function inicializarDashboard() {
         welcomeEl.addEventListener('click', () => abrirPerfilJugador(usuarioActualNombre));
     }
 
-    // Guardar el diseño original de la vista principal de niveles
     const container = document.querySelector('.dashboard-container') || document.querySelector('.main-content');
     if (container) {
         htmlDashboardOriginal = container.innerHTML;
@@ -38,7 +35,6 @@ async function inicializarDashboard() {
     configurarNavegacion();
 }
 
-// 2. Función para obtener los niveles desde Supabase
 async function cargarNiveles() {
     const levelsContainer = document.querySelector('.levels-list');
     if (levelsContainer) {
@@ -70,7 +66,6 @@ async function cargarNiveles() {
     seleccionarNivel(globalLevels[0]);
 }
 
-// 3. Renderizar las tarjetas de la lista lateral
 function renderizarListaNiveles(lista) {
     const levelsContainer = document.querySelector('.levels-list');
     if (!levelsContainer) return;
@@ -100,12 +95,11 @@ function renderizarListaNiveles(lista) {
     });
 }
 
-// 4. Mostrar la información del nivel seleccionado
-function seleccionarNivel(level) {
+async function seleccionarNivel(level) {
     const detailsContainer = document.querySelector('.level-details');
     if (!detailsContainer) return;
 
-    let videoHTML = `<div class="video-placeholder"><span>🎬 Sin video disponible</span></div>`;
+    let videoHTML = `<div class="video-placeholder"><span>Sin video disponible</span></div>`;
     
     if (level.video_url) {
         let url = level.video_url;
@@ -132,10 +126,54 @@ function seleccionarNivel(level) {
         }
     }
 
+    const { data: registeredPlayers } = await supabaseClient
+        .from('players')
+        .select('username');
+
+    const listaUsuariosValidos = registeredPlayers ? registeredPlayers.map(p => p.username.toLowerCase()) : [];
+
+    function estaRegistrado(nombre) {
+        if (!nombre) return false;
+        return listaUsuariosValidos.includes(nombre.trim().toLowerCase());
+    }
+
+    const creatorName = level.creator || 'Desconocido';
+    const verifierName = level.verifier || level.creator || 'Desconocido';
+
+    const creatorHTML = estaRegistrado(creatorName) 
+        ? `<span class="creator-link" style="color: #00d2ff; cursor: pointer; text-decoration: underline;" onclick="abrirPerfilJugador('${creatorName}')">${creatorName}</span>` 
+        : `<span style="color: #fff;">${creatorName}</span>`;
+
+    const verifierHTML = estaRegistrado(verifierName) 
+        ? `<span class="creator-link" style="color: #00d2ff; cursor: pointer; text-decoration: underline;" onclick="abrirPerfilJugador('${verifierName}')">${verifierName}</span>` 
+        : `<span style="color: #fff;">${verifierName}</span>`;
+
+    const { data: records } = await supabaseClient
+        .from('records')
+        .select('*')
+        .eq('level_id', level.id)
+        .order('progress', { ascending: false });
+
+    let recordsListHTML = '<p style="color: #666; font-size: 0.85rem;">No hay récords registrados de jugadores activos.</p>';
+
+    if (records && records.length > 0) {
+        const recordsValidos = records.filter(rec => estaRegistrado(rec.username));
+
+        if (recordsValidos.length > 0) {
+            recordsListHTML = `<ul class="records-list" style="list-style: none; padding: 0; margin: 0;">` + 
+                recordsValidos.map(rec => `
+                    <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #111; margin-bottom: 6px; border-radius: 6px; border: 1px solid #222;">
+                        <span style="color: #00d2ff; cursor: pointer; font-weight: bold; text-decoration: underline;" onclick="abrirPerfilJugador('${rec.username}')">${rec.username}</span>
+                        <span style="color: #22c55e; font-weight: bold;">${rec.progress}%</span>
+                    </li>
+                `).join('') + `</ul>`;
+        }
+    }
+
     detailsContainer.innerHTML = `
         <div class="details-header">
             <h2>${level.name}</h2>
-            <p>by <span class="creator-link" style="color: #00d2ff; cursor: pointer; text-decoration: underline;" onclick="abrirPerfilJugador('${level.creator}')">${level.creator}</span> | Verified by ${level.verifier || level.creator}</p>
+            <p>by ${creatorHTML} | Verified by ${verifierHTML}</p>
         </div>
         
         ${videoHTML}
@@ -145,17 +183,14 @@ function seleccionarNivel(level) {
             <div class="stat-box"><span>ID</span><strong>${level.level_id || 'N/A'}</strong></div>
             <div class="stat-box"><span>LENGTH</span><strong>${level.length || 'N/A'}</strong></div>
         </div>
-        
-        </div>
 
-        <div class="records-section">
-            <h3>Records</h3>
-            <p style="color: #666; font-size: 0.85rem;">Próximamente consulta de récords desde la BD.</p>
+        <div class="records-section" style="margin-top: 20px;">
+            <h3 style="margin-bottom: 10px; color: #fff; font-size: 1.1rem;">Records</h3>
+            ${recordsListHTML}
         </div>
     `;
 }
 
-// 5. Configurar la Navegación (List, Leaderboard, Submit) manteniendo el Header
 function configurarNavegacion() {
     const navLinks = document.querySelectorAll('nav a');
     navLinks.forEach(link => {
@@ -178,7 +213,6 @@ function configurarNavegacion() {
 }
 
 function obtenerContenedorDinamico() {
-    // Busca el contenedor de contenido debajo del header
     return document.querySelector('.dashboard-container') || document.querySelector('.main-content') || document.body;
 }
 
@@ -189,7 +223,6 @@ function restaurarDashboard() {
         renderizarListaNiveles(globalLevels);
         if (globalLevels.length > 0) seleccionarNivel(globalLevels[0]);
         
-        // Re-vincular buscador
         const searchInput = document.querySelector('.search-box input');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
@@ -206,7 +239,6 @@ function restaurarDashboard() {
     }
 }
 
-// 6. Cargar Leaderboard sin borrar el menú
 async function cargarLeaderboard() {
     const container = obtenerContenedorDinamico();
     container.innerHTML = '<p style="padding: 40px; text-align: center; color: #888;">Cargando Leaderboard...</p>';
@@ -248,7 +280,6 @@ async function cargarLeaderboard() {
     `;
 }
 
-// 7. Formulario SUMIT
 async function mostrarFormularioSubmit() {
     const container = obtenerContenedorDinamico();
     container.innerHTML = '<p style="padding: 40px; text-align: center; color: #888;">Cargando formulario...</p>';
@@ -332,7 +363,6 @@ async function mostrarFormularioSubmit() {
     });
 }
 
-// 8. Tarjeta de Perfil Interactiva
 async function abrirPerfilJugador(nombreJugador) {
     let puntos = 0;
     let banderaActual = '🇲🇽';
@@ -407,7 +437,6 @@ async function abrirPerfilJugador(nombreJugador) {
     });
 }
 
-// 9. Botón de Cerrar Sesión
 const btnLogout = document.getElementById('btn-logout');
 if (btnLogout) {
     btnLogout.addEventListener('click', async () => {
