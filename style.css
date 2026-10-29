@@ -70,7 +70,6 @@ body {
     cursor: pointer;
 }
 
-/* Estilos generales oscuros para Zen List */
 body.dark-theme {
     background-color: #0d0d0d;
     color: #e0e0e0;
@@ -79,7 +78,6 @@ body.dark-theme {
     padding: 0;
 }
 
-/* Barra de navegación */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -126,13 +124,11 @@ body.dark-theme {
     font-size: 0.8rem;
 }
 
-/* Diseño de dos columnas principal */
 .main-layout {
     display: flex;
     height: calc(100vh - 60px);
 }
 
-/* Sidebar de niveles */
 .sidebar-levels {
     width: 350px;
     background-color: #111;
@@ -197,7 +193,6 @@ body.dark-theme {
     color: #888;
 }
 
-/* Panel de detalles de la derecha */
 .level-details {
     flex: 1;
     background-color: #0d0d0d;
@@ -275,7 +270,6 @@ body.dark-theme {
     font-size: 0.9rem;
 }
 
-/* Adaptabilidad para Móviles (Android) */
 @media (max-width: 768px) {
     .main-layout {
         flex-direction: column;
@@ -289,7 +283,7 @@ body.dark-theme {
         padding: 15px;
     }
     .nav-links {
-        display: none; /* Oculta enlaces secundarios en pantallas muy pequeñas para ganar espacio */
+        display: none; 
     }
 }
 
