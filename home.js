@@ -449,5 +449,5 @@ if (btnLogout) {
     });
 }
 
-// Iniciar ejecuciones
+// esto hara que se inicie (por favor funciona 😭)
 inicializarDashboard();
