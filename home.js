@@ -47,10 +47,6 @@ async function inicializarDashboard() {
 }
 
 
-    cargarNiveles();
-    configurarNavegacion();
-}
-
 async function cargarNiveles() {
     const levelsContainer = document.querySelector('.levels-list');
     if (levelsContainer) {
