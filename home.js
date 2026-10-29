@@ -10,26 +10,42 @@ let htmlDashboardOriginal = "";
 async function inicializarDashboard() {
     const { data: { session }, error } = await supabaseClient.auth.getSession();
 
-    if (!session || error) {
-        window.location.href = "index.html";
-        return;
-    }
-
-    const user = session.user;
-    usuarioActualNombre = user.user_metadata.username || user.email;
-    
     const welcomeEl = document.getElementById('user-welcome');
-    if (welcomeEl) {
-        welcomeEl.innerText = `${usuarioActualNombre}`;
-        welcomeEl.style.cursor = 'pointer';
-        welcomeEl.title = 'Haz clic para ver tu perfil';
-        welcomeEl.addEventListener('click', () => abrirPerfilJugador(usuarioActualNombre));
+    const btnLogout = document.getElementById('btn-logout');
+
+    if (session && !error) {
+        const user = session.user;
+        usuarioActualNombre = user.user_metadata.username || user.email;
+        
+        if (welcomeEl) {
+            welcomeEl.innerText = `${usuarioActualNombre}`;
+            welcomeEl.style.cursor = 'pointer';
+            welcomeEl.title = 'Haz clic para ver tu perfil';
+            welcomeEl.onclick = () => abrirPerfilJugador(usuarioActualNombre);
+        }
+        if (btnLogout) {
+            btnLogout.style.display = 'inline-block';
+        }
+    } else {
+        usuarioActualNombre = "";
+        
+        if (welcomeEl) {
+            welcomeEl.innerHTML = `<a href="index.html" style="color: #00d2ff; text-decoration: none; font-weight: bold;">Iniciar Sesión</a>`;
+        }
+        if (btnLogout) {
+            btnLogout.style.display = 'none'; 
+        }
     }
 
     const container = document.querySelector('.dashboard-container') || document.querySelector('.main-content');
     if (container) {
         htmlDashboardOriginal = container.innerHTML;
     }
+
+    cargarNiveles();
+    configurarNavegacion();
+}
+
 
     cargarNiveles();
     configurarNavegacion();
