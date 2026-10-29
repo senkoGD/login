@@ -104,3 +104,12 @@ formLogin.addEventListener('submit', async (e) => {
         window.location.href = "home.html";
     }
 });
+
+const btnInvitado = document.getElementById('btn-invitado');
+if (btnInvitado) {
+    btnInvitado.addEventListener('click', () => {
+        localStorage.setItem('modoInvitado', 'true');
+        window.location.href = 'home.html';
+    });
+}
+
