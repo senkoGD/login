@@ -8,12 +8,13 @@ let usuarioActualNombre = "";
 let htmlDashboardOriginal = ""; 
 
 async function inicializarDashboard() {
+    const esInvitado = localStorage.getItem('modoInvitado') === 'true';
     const { data: { session }, error } = await supabaseClient.auth.getSession();
 
     const welcomeEl = document.getElementById('user-welcome');
     const btnLogout = document.getElementById('btn-logout');
 
-    if (session && !error) {
+    if (session && !error && !esInvitado) {
         const user = session.user;
         usuarioActualNombre = user.user_metadata.username || user.email;
         
@@ -25,15 +26,25 @@ async function inicializarDashboard() {
         }
         if (btnLogout) {
             btnLogout.style.display = 'inline-block';
+            btnLogout.innerText = "Cerrar Sesión";
         }
     } else {
+        if (esInvitado && session) {
+            supabaseClient.auth.signOut(); 
+        }
+        
         usuarioActualNombre = "";
         
         if (welcomeEl) {
-            welcomeEl.innerHTML = `<a href="index.html" style="color: #00d2ff; text-decoration: none; font-weight: bold;">Iniciar Sesión</a>`;
+            welcomeEl.innerHTML = `<span style="color: #aaa;">Modo Invitado</span>`;
         }
         if (btnLogout) {
-            btnLogout.style.display = 'none'; 
+            btnLogout.style.display = 'inline-block';
+            btnLogout.innerText = "Registrarse / Login";
+            btnLogout.onclick = () => {
+                localStorage.removeItem('modoInvitado');
+                window.location.href = "index.html";
+            };
         }
     }
 
@@ -45,6 +56,42 @@ async function inicializarDashboard() {
     cargarNiveles();
     configurarNavegacion();
 }
+
+function configurarNavegacion() {
+    const navLinks = document.querySelectorAll('nav a');
+    const esInvitado = localStorage.getItem('modoInvitado') === 'true';
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            const section = link.innerText.trim().toLowerCase();
+
+            if (esInvitado && (section === 'leaderboard' || section === 'submit')) {
+                const container = obtenerContenedorDinamico();
+                container.innerHTML = `
+                    <div style="padding: 50px; text-align: center; color: #fff; max-width: 450px; margin: 0 auto;">
+                        <h2 style="margin-bottom: 15px; color: #ff4d4d; font-size: 1.6rem;">Acceso Restringido</h2>
+                        <p style="color: #aaa; margin-bottom: 25px; font-size: 0.95rem;">Estás navegando en modo invitado. No tienes permitido ver la Leaderboard ni enviar récords o niveles.</p>
+                        <a href="index.html" onclick="localStorage.removeItem('modoInvitado')" style="display: inline-block; padding: 12px 24px; background: #00d2ff; color: #000; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 1rem;">Iniciar Sesión / Registrarse</a>
+                    </div>
+                `;
+                return;
+            }
+
+            if (section === 'list') {
+                restaurarDashboard();
+            } else if (section === 'leaderboard') {
+                cargarLeaderboard();
+            } else if (section === 'submit') {
+                mostrarFormularioSubmit();
+            }
+        });
+    });
+}
+
 
 
 async function cargarNiveles() {
