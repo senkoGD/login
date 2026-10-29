@@ -11,7 +11,18 @@
 
     <div class="container">
         
-        <div class="form sign-container">
+        <div class="form sign-login">
+            <h1>Iniciar Sesión</h1>
+            <form class="formulario" id="form-login">
+                <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                <input type="password" id="login-password" placeholder="Contraseña" required>
+                <span class="no-account" style="color: #00bcff; cursor: pointer; text-decoration: underline; display: inline-block; margin: 10px 0;">¿Aún no tienes cuenta?</span>
+                <input type="submit" value="Iniciar Sesión">
+            </form>
+            <button id="btn-invitado" style="width: 100%; padding: 0.75rem; margin-top: 10px; background: #18181c; color: #00d2ff; font-weight: bold; border: 1px solid #333; border-radius: 6px; cursor: pointer;">👀 Entrar como Invitado</button>
+        </div>
+
+        <div class="form sign-container" style="display: none;">
             <h1>Registrarse</h1>
             <form class="formulario" id="form-register">
                 <input type="text" id="reg-nombre" placeholder="Nombre de usuario" required>
@@ -22,17 +33,6 @@
             </form>
         </div>
 
-                <div class="form sign-login" style="display: none;">
-            <h1>Iniciar Sesión</h1>
-            <form class="formulario" id="form-login">
-                <input type="email" id="login-email" placeholder="Correo electrónico" required>
-                <input type="password" id="login-password" placeholder="Contraseña" required>
-                <span class="no-account" style="color: #00bcff; cursor: pointer; text-decoration: underline; display: inline-block; margin: 10px 0;">¿Aún no tienes cuenta?</span>
-                <input type="submit" value="Iniciar Sesión">
-            </form>
-            <button id="btn-invitado" style="width: 100%; padding: 0.75rem; margin-top: 10px; background: #222; color: #00bcff; font-weight: bold; border: 1px solid #444; border-radius: 6px; cursor: pointer;">Entrar como Invitado</button>
-                </div>
-        
     </div>
 
     <script src="app.js"></script>
